@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+    <title>Home</title>
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
+    
+    
+    <div class="container mt-4">
+        <h1><%= oneBlog.title %></h1>
+        <img src=<%= oneBlog.coverImageURL %> alt="" width="700px">
+        <p><%=  oneBlog.body %></p>
+    </div>
+
+    <div class="container">
+      <img src=<%= oneBlog.createdBy.profileImageURL %> alt="" width="50px" > <%=  oneBlog.createdBy.fullName %>
+    </div>
+
+
+    <!-- Commenting -->
+    <% if (locals.user) { %>
+      <div class="container mt-5">
+        <form method="post" action='/blog/comment/<%= oneBlog._id %>'>
+          <div class="mb-3">
+            <label for="comment" class="form-label">Comment(<%= comments.length %>)</label>
+            <input type="text" name="content" class="form-control" id="comment" aria-describedby="emailHelp">
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    <% } %>
+    
+    <!--List of comment-->
+    <% if (locals.comments) { %>
+      <div class="container">
+        <% comments.forEach(comment => { %>
+          <div class="m-3">
+            <img src= <%= comment.createdBy.profileImageURL %> alt="" width='20px' > <b><%= comment.createdBy.fullName %></b>
+            <p><%= comment.content %></p>
+          </div>
+        <% }) %>
+    </div>
+    <% } %>
+    
+
+    <%- include('./partials/script') %>
+  </body>
+</html>
